@@ -1,0 +1,177 @@
+.main-content {
+  padding: 2rem;
+  background: #fafbfc;
+  min-height: 80vh;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: stretch;
+}
+.section-row {
+  display: flex;
+  gap: 2rem;
+  flex: 1;
+  min-height: 0;
+}
+.section-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 2rem 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.section-card h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.3rem;
+}
+.section-card p {
+  color: #555;
+  margin-bottom: 1.2rem;
+}
+.section-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s;
+}
+.section-btn:hover {
+  background: #1e40af;
+}
+.promo-banner,
+.promo-banner-small,
+.card {
+  height: 100%;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.promo-banner {
+  flex: 2;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.promo-banner:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  transform: scale(1.035);
+}
+.promo-overlay {
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  padding: 2rem;
+  width: 100%;
+}
+.promo-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s;
+}
+.promo-btn:hover {
+  background: #1e40af;
+}
+.card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 2.5rem 2rem 2rem 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-width: 0;
+  margin: 0.5rem 0;
+  transition: box-shadow 0.2s, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.card:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  transform: scale(1.035);
+}
+.card-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.card-desc {
+  color: #555;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+.card-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background 0.2s;
+  font-weight: 500;
+}
+.card-btn:hover {
+  background: #1e40af;
+}
+.card-extra {
+  margin-bottom: 0.75rem;
+}
+.card-image-container {
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+  border-radius: 14px 14px 0 0;
+  margin-bottom: 1rem;
+}
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.promo-banner-small {
+  flex: 1;
+  border-radius: 20px;
+  margin: 0.5rem 0;
+}
+.promo-banner-small .promo-overlay {
+  padding: 1.5rem 1.2rem;
+}
+.promo-banner-small h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+.promo-banner-small p {
+  font-size: 1rem;
+  margin-bottom: 1.2rem;
+}
+.promo-banner-small .promo-btn {
+  padding: 0.7rem 1.1rem;
+  font-size: 1rem;
+} 
