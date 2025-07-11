@@ -42,7 +42,7 @@ const HeaderIcons = () => {
       <IconButton color="inherit" size="large" onClick={() => navigate('/profile')}>
         <AccountCircleIcon sx={{ color: 'white' }} fontSize="inherit" />
       </IconButton>
-      <IconButton color="inherit" size="large">
+      <IconButton color="inherit" size="large" onClick={() => navigate('/cart')}>
         <ShoppingCartIcon sx={{ color: 'white' }} fontSize="inherit" />
       </IconButton>
       <IconButton color="inherit" size="large" onClick={() => navigate('/settings')}>

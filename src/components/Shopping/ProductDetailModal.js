@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
@@ -11,8 +11,11 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { CartContext } from '../../CartContext';
 
 function ProductDetailModal({ product, onClose }) {
+  const { cart, setCart } = useContext(CartContext);
+
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === 'Escape') onClose();
@@ -33,6 +36,12 @@ function ProductDetailModal({ product, onClose }) {
   if (onSale) chips.push({ label: 'On Sale', color: 'secondary' });
   if (exclusive) chips.push({ label: 'Exclusive', color: 'primary' });
   if (newArrival) chips.push({ label: 'New Arrival', color: 'success' });
+
+  const handleAddToCart = () => {
+    setCart([...cart, product]);
+    // Optionally close the modal or show a message
+    // onClose();
+  };
 
   return (
     <Dialog open={!!product} onClose={onClose} maxWidth="md" fullWidth>
@@ -72,6 +81,7 @@ function ProductDetailModal({ product, onClose }) {
             variant="contained"
             color="primary"
             sx={{ width: 150, fontWeight: 600, backgroundColor: 'primary.main', color: 'black', '&:hover': { backgroundColor: 'black', color: 'primary.main', border: '2px solid', borderColor: 'primary.main' } }}
+            onClick={handleAddToCart}
           >
             Add to Cart
           </Button>

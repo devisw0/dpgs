@@ -12,6 +12,8 @@ import SignupPage from './pages/SignupPage';
 import ProfilePage from './pages/ProfilePage';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import MainLayout from './components/MainContent/MainContent';
+import { CartContext } from './CartContext';
+import CartPage from './pages/CartPage';
 
 export const DarkModeContext = createContext();
 export const UserContext = createContext();
@@ -22,6 +24,7 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [user, setUser] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
@@ -87,9 +90,10 @@ function App() {
           }
         >
           <Route path="/" element={<HomePage />} />
-          <Route path="/shop" element={<ShoppingPage products={products} onProductClick={setSelectedProduct} />} />
+          <Route path="/shop" element={<ShoppingPage products={products} />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/cart" element={<CartPage />} />
         </Route>
       </Routes>
     );
@@ -113,14 +117,16 @@ function App() {
   return (
     <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
       <UserContext.Provider value={{ user, setUser, userLoading }}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <div className={darkMode ? 'dark' : ''}>
-            <Router>
-              <AppRoutes />
-            </Router>
-          </div>
-        </ThemeProvider>
+        <CartContext.Provider value={{ cart, setCart }}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <div className={darkMode ? 'dark' : ''}>
+              <Router>
+                <AppRoutes />
+              </Router>
+            </div>
+          </ThemeProvider>
+        </CartContext.Provider>
       </UserContext.Provider>
     </DarkModeContext.Provider>
   );
