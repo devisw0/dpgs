@@ -14,6 +14,7 @@ import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import MainLayout from './components/MainContent/MainContent';
 import { CartContext } from './CartContext';
 import CartPage from './pages/CartPage';
+import { ToastProvider } from './components/ToastContext';
 
 export const DarkModeContext = createContext();
 export const UserContext = createContext();
@@ -115,20 +116,22 @@ function App() {
   });
 
   return (
-    <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
-      <UserContext.Provider value={{ user, setUser, userLoading }}>
-        <CartContext.Provider value={{ cart, setCart }}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <div className={darkMode ? 'dark' : ''}>
-              <Router>
-                <AppRoutes />
-              </Router>
-            </div>
-          </ThemeProvider>
-        </CartContext.Provider>
-      </UserContext.Provider>
-    </DarkModeContext.Provider>
+    <ToastProvider>
+      <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
+        <UserContext.Provider value={{ user, setUser, userLoading }}>
+          <CartContext.Provider value={{ cart, setCart }}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <div className={darkMode ? 'dark' : ''}>
+                <Router>
+                  <AppRoutes />
+                </Router>
+              </div>
+            </ThemeProvider>
+          </CartContext.Provider>
+        </UserContext.Provider>
+      </DarkModeContext.Provider>
+    </ToastProvider>
   );
 }
 

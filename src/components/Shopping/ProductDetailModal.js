@@ -12,9 +12,12 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { CartContext } from '../../CartContext';
+import { useToast } from '../ToastContext';
+import CheckIcon from '@mui/icons-material/Check';
 
 function ProductDetailModal({ product, onClose }) {
   const { cart, setCart } = useContext(CartContext);
+  const { showToast } = useToast();
 
   useEffect(() => {
     const handleEscape = (e) => {
@@ -39,6 +42,12 @@ function ProductDetailModal({ product, onClose }) {
 
   const handleAddToCart = () => {
     setCart([...cart, product]);
+    showToast({
+      message: 'Added to cart',
+      color: '#d4edda', // light green
+      icon: <CheckIcon style={{ color: '#34C759' }} />, // Material UI check icon
+      duration: 3000
+    });
     // Optionally close the modal or show a message
     // onClose();
   };
