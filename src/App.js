@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 import HomePage from './pages/HomePage';
@@ -6,10 +6,26 @@ import ShoppingPage from './pages/ShoppingPage';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
 import ProductDetailModal from './components/Shopping/ProductDetailModal';
+import SettingsPage from './pages/SettingsPage';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import ProfilePage from './pages/ProfilePage';
+import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
+import MainLayout from './components/MainContent/MainContent';
+import { CartContext } from './CartContext';
+import CartPage from './pages/CartPage';
+import { ToastProvider } from './components/ToastContext';
+
+export const DarkModeContext = createContext();
+export const UserContext = createContext();
 
 function App() {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
+  const [user, setUser] = useState(null);
+  const [userLoading, setUserLoading] = useState(true);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
@@ -26,6 +42,27 @@ function App() {
       });
   }, []);
 
+  // Fetch user info on app load
+  useEffect(() => {
+    const fetchUser = async () => {
+      setUserLoading(true);
+      try {
+        const res = await fetch('/api/auth/me', { credentials: 'include' });
+        if (res.ok) {
+          const data = await res.json();
+          setUser(data.user);
+        } else {
+          setUser(null);
+        }
+      } catch {
+        setUser(null);
+      } finally {
+        setUserLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
+
   // For search bar: open modal and navigate to /shop if not already there
   function useProductSearchNavigate() {
     const navigate = useNavigate();
@@ -38,26 +75,63 @@ function App() {
   function AppRoutes() {
     const onSelectProduct = useProductSearchNavigate();
     return (
-      <div className="homepage-layout">
-        <Header products={products} onSelectProduct={onSelectProduct} />
-        <div className="main-area">
-          <Sidebar />
-          <div className="page-content">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/shop" element={<ShoppingPage products={products} onProductClick={setSelectedProduct} />} />
-            </Routes>
-            <ProductDetailModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
-          </div>
-        </div>
-      </div>
+      <Routes>
+        {/* Standalone auth pages */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        {/* Main app layout as a layout route */}
+        <Route
+          element={
+            <MainLayout
+              products={products}
+              onSelectProduct={onSelectProduct}
+              selectedProduct={selectedProduct}
+              setSelectedProduct={setSelectedProduct}
+            />
+          }
+        >
+          <Route path="/" element={<HomePage />} />
+          <Route path="/shop" element={<ShoppingPage products={products} />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/cart" element={<CartPage />} />
+        </Route>
+      </Routes>
     );
   }
 
+  const theme = createTheme({
+    palette: {
+      mode: darkMode ? 'dark' : 'light',
+      primary: { main: '#a78bfa' },
+      secondary: { main: '#ff6f61' },
+      background: {
+        default: darkMode ? '#18181b' : '#f7f7f7',
+        paper: darkMode ? '#23232a' : '#fff',
+      },
+    },
+    typography: {
+      fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+    },
+  });
+
   return (
-    <Router>
-      <AppRoutes />
-    </Router>
+    <ToastProvider>
+      <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
+        <UserContext.Provider value={{ user, setUser, userLoading }}>
+          <CartContext.Provider value={{ cart, setCart }}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <div className={darkMode ? 'dark' : ''}>
+                <Router>
+                  <AppRoutes />
+                </Router>
+              </div>
+            </ThemeProvider>
+          </CartContext.Provider>
+        </UserContext.Provider>
+      </DarkModeContext.Provider>
+    </ToastProvider>
   );
 }
 

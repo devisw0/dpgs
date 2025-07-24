@@ -1,28 +1,16 @@
 import React from 'react';
+import Grid from '@mui/material/Grid';
 import ProductCard from './ProductCard';
-import './ProductGrid.css';
 
 function ProductGrid({ products, onProductClick }) {
   return (
-    <div className="product-grid">
+    <Grid container spacing={3} justifyContent="center">
       {products.map(product => (
-        <ProductCard
-          key={product.id}
-          image={product.image}
-          name={product.title || product.name}
-          price={product.price}
-          onSale={product.onSale}
-          exclusive={product.exclusive}
-          isAccessory={product.isAccessory}
-          rating={product.rating}
-          brand={product.brand}
-          stock={product.rating?.count}
-          discount={product.discount}
-          category={product.category}
-          onClick={() => onProductClick && onProductClick(product)}
-        />
+        <Grid item key={product.id}>
+          <ProductCard {...product} onClick={() => onProductClick(product)} />
+        </Grid>
       ))}
-    </div>
+    </Grid>
   );
 }
 

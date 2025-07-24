@@ -1,8 +1,8 @@
 import React from 'react';
-import MainContent from '../components/MainContent/MainContent';
+import HomeContent from '../components/MainContent/HomeContent';
 
 function HomePage() {
-  return <MainContent />;
+  return <HomeContent />;
 }
 
 export default HomePage; 

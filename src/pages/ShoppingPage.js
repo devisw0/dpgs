@@ -1,8 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ProductGrid from '../components/Shopping/ProductGrid';
 import ProductDetailModal from '../components/Shopping/ProductDetailModal';
-import PriceRangeSlider from '../components/Shopping/PriceRangeSlider';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Paper from '@mui/material/Paper';
+import Chip from '@mui/material/Chip';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import PriceRangeSlider from '../components/Shopping/PriceRangeSlider';
 import './ShoppingPage.css';
 
 const BASE_FILTERS = [
@@ -125,31 +129,41 @@ function ShoppingPage({ products: propProducts, onProductClick }) {
   if (error) return <div className="shopping-page">{error}</div>;
 
   return (
-    <div className="shopping-page">
-      <div className="filters-section">
-        <div className="filters-bar">
+    <Paper elevation={0} sx={{ minHeight: '100vh', bgcolor: 'background.default', p: 3 }}>
+      <Box className="filters-section" sx={{ mb: 3 }}>
+        <Stack direction="row" spacing={1} alignItems="center" className="filters-bar">
           {FILTERS.map(f => (
-            <button
+            <Chip
               key={f.value}
-              className={`filter-btn chip${activeFilters.includes(f.value) ? ' active' : ''}`}
-              onMouseDown={e => { e.preventDefault(); toggleFilter(f.value); }}
-              tabIndex={0}
-              type="button"
-            >
-              {f.label}
-            </button>
+              label={f.label}
+              clickable
+              color={activeFilters.includes(f.value) ? 'primary' : 'default'}
+              variant={activeFilters.includes(f.value) ? 'filled' : 'outlined'}
+              onClick={() => toggleFilter(f.value)}
+              sx={{
+                fontWeight: 500,
+                fontSize: '1rem',
+                textTransform: 'capitalize',
+                transition: 'background 0.2s, color 0.2s',
+                '&:hover': activeFilters.includes(f.value)
+                  ? { backgroundColor: 'primary.dark', color: 'white' }
+                  : { backgroundColor: 'primary.main', color: 'white' },
+              }}
+            />
           ))}
-          <PriceRangeSlider
-            min={minPrice}
-            max={maxPrice}
-            value={priceRange}
-            onChange={handlePriceRangeChange}
-          />
-        </div>
-      </div>
+          <Box sx={{ width: 320, ml: 3 }}>
+            <PriceRangeSlider
+              min={minPrice}
+              max={maxPrice}
+              value={priceRange}
+              onChange={handlePriceRangeChange}
+            />
+          </Box>
+        </Stack>
+      </Box>
       <ProductGrid products={filteredProducts} onProductClick={onProductClick || setSelectedProduct} />
       <ProductDetailModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
-    </div>
+    </Paper>
   );
 }
 
