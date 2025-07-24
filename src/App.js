@@ -15,6 +15,7 @@ import MainLayout from './components/MainContent/MainContent';
 import { CartContext } from './CartContext';
 import CartPage from './pages/CartPage';
 import { ToastProvider } from './components/ToastContext';
+import CheckoutPage from './pages/CheckoutPage';
 
 export const DarkModeContext = createContext();
 export const UserContext = createContext();
@@ -95,6 +96,7 @@ function App() {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
         </Route>
       </Routes>
     );
